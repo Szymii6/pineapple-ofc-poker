@@ -1,5 +1,3 @@
-# controller/game_controller.py
-
 from model.game_state import GameState
 from model.card import Card, RANK_ORDER, hand_strength
 import random
@@ -7,7 +5,7 @@ import random
 class GameController:
     def __init__(self, game_state):
         self.game_state = game_state
-        self.view = None  # Przypisywana później przez set_view
+        self.view = None
         self.turn = 1
         self.selected_this_turn = 0
         self.hand_sprites = []
@@ -46,9 +44,12 @@ class GameController:
         getattr(self.game_state, slot).append(card)
         self.game_state.hand.remove(card)
         self.selected_this_turn += 1
-
+        
+        self.view.display_hand(self.game_state.hand)
+        
         if (self.turn == 1 and self.selected_this_turn == 5) or (self.turn > 1 and self.selected_this_turn == 2):
-            self.next_turn()
+            self.view.schedule_next_turn()
+
 
         return True
 

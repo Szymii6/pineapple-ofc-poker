@@ -1,11 +1,10 @@
-# model/game_state.py
+from patterns.singleton import SingletonMeta
 
-class GameState:
+class GameState(metaclass=SingletonMeta):
     def __init__(self):
         self.reset()
 
     def reset(self):
-        """Resetuje wszystkie dane stanu gry."""
         self.deck = []
         self.top = []
         self.middle = []
@@ -13,15 +12,12 @@ class GameState:
         self.hand = []
 
     def get_slot(self, slot_name):
-        """Zwraca listę kart w danym slocie ('top', 'middle', 'bottom')."""
         return getattr(self, slot_name, [])
 
-    def add_to_slot(self, slot_name, card):
-        """Dodaje kartę do określonego slotu."""
+    def add_to_slot(self, slot_name, card): 
         slot = self.get_slot(slot_name)
         slot.append(card)
 
     def remove_from_hand(self, card):
-        """Usuwa kartę z ręki gracza."""
         if card in self.hand:
             self.hand.remove(card)
